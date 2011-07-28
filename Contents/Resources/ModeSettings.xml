@@ -4,5 +4,6 @@
   <recognition>
     <extension>coffee</extension>                   <!-- Add file extensions -->
     <extension casesensitive="no">coffee</extension> <!-- Add case sensitive file extensions -->
+    <filename>Cakefile</filename>
   </recognition>
 </settings>
