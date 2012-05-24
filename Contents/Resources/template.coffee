@@ -1,57 +1,67 @@
+### Comments ###
 
-
-  
-  
-  
-###------------------
-      PASSING
-------------------###
-  
-  
-### COMMENTS ###
-  
 # A singe line comment should be colorized as a comment
 
 ###
 A multi-line comment should be colorized as a comment
 ###
 
-answer = 4 + 5 # A comment trailing code should be colorized as a comment
-  
-  
-  
+variable # A comment trailing code should be colorized as a comment
+
+
+### OPERATORS ###
+
+a = 30 + 70
+s = 62 - 10
+m = 5 * 5
+d = 10 / NaN
+
+
 ### STRINGS ###
 
-double_quote_string = "This string is in double quotes"
-single_quote_string = 'This string is in single quotes'
-string_segment      = 'interpolated in-line'
-interpolated_string = "This string is #{ string_segment }"
-  
-  
-  
+theFirstString = 'is in single quotes'
+thenThisString = "is in double quotes
+ and can span multiple lines"
+interpolatedStrings = "contain code-colored #{Inter.pol() + "at#{"ti"}ons"}!"
+heredocStrings = """
+                 are
+                 rather #{"awesome"}.
+                 """
+
+
 ### FUNCTIONS ###
 
-# A function with no arguments should be colorized as a function
-$(document).ready ->
-  alert 'ready!'
+withoutArguments = -> "in-line"
+withoutArguments = =>
+  "indented"
+withArguments = (a, b) ->
+  (f > "indented")
 
-# A function with arguments should be colorized as a function
-square = (x) -> x * x
+#-- Meh...
+defaultArg = (u, ments, are='nice' in ['colors'] or not true?) ->
+  "...but the function definition's RPAREN (before the arrow) isn't, and
+  it fails with more complex things, which is a #{not are} shame"
 
-# A function binding with no arguments should be colorized as a function
-$('.element').bind 'click', (event) =>
-  @customer.purchase @cart
+#-- Fail
+the = (second) -> (inline > "function is mean") and ((captures)=>"the first LPAREN too greedily")()
 
-# A function binding with arguments should be colorized as a function
-bound_function = =>
-  # bound function code
-  
-  
 
-### Embedded javascript ###
+
+
+### VARIABLES ###
+
+Class.attribute =
+  property: yes
+  property: yes
+
+### REGULAR EXPRESSION ###
+r = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
+
+
+### EMBEDDED JAVASCRIPT ###
 
 apple = `function(){
-  Apple = function (){
+  apple = function(){
     this.family = "Granny Smith";
     this.peel = function(){
       // Peel this apple.
@@ -62,30 +72,8 @@ apple = `function(){
   
   return Apple.new();
 }`  
-  
-# Regular Expression
-r = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/g
 
-# Operators
-a = 30 + 70
-s = 62 - 10
-m = 5 * 5
-d = 10/2      #division symbol should be interepereted as a regular expression
-  
-  
-  
-###------------------
-      FAILING
-------------------###
-
-  
-  
-
-  
-  
-###------------------
-      PENDING
-------------------###
+#-- This was left from Sean Durham's work
   
 # Assignment:
 number   = 42
@@ -111,5 +99,5 @@ race = (winner, runners...) ->
 alert "I knew it!" if elvis?
 
 # Array comprehensions:
-cubes = (math.cube num for num in list) 
+cubes = (Math.cube num for num in list) 
 

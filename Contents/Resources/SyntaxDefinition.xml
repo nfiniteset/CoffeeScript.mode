@@ -1,178 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <syntax>
-
-    <head>
-        <name>CoffeeScript</name>
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> 
-        <!-- <charsdelimitingtokens><![CDATA[ -]]></charsdelimitingtokens> -->
-        <!-- <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$</=>!]]></charsincompletion> -->
-    </head>
-
-    <states>
-
-        <!--
-        The <default> tag specifies what is colored within the default state (see above).
-        It features the following attributes, all optional if not noted otherwise:
-            id
-                Has to be a unique string. Has to be specified.
-            color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text on bright document background colors.
-            inverted-color
-                a html comptible color in three or six letter hexadecimal format.
-                Used for text if a dark document background color is set.
-            font-weight
-                normal  Normal font-weight (default)
-                bold    Bold text in popup
-            font-style
-                normal  Normal font-weight (default)
-                italic  Bold text in popup
-            usesymbolsfrommode
-                a mode name to use the symbol recognition from
-                when left out the value is inherited from the parent state
-            useautocompletefrommode
-                a mode name to use the autocomplete from - default is this mode
-                when left out the value is inherited from the parent state
-            type
-                a string description of the type. currently only the values
-                "string" and "comment" have meaning and cause bracket matching
-                and syntax highlighting to ignore these areas of text
-
-        -->
-
-        <default id="Base" color="#363636" inverted-color="#f0f">
-
-            <!--
-            The <keywords> tag specifies keyword groups within the current state.
-            It features the following attributes, all optional if not noted otherwise:
-                id
-                    Has to be a unique string. Has to be specified.
-                color
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text on bright document background colors.
-                inverted-color
-                    a html comptible color in three or six letter hexadecimal format.
-                    Used for text if a dark document background color is set.
-                font-weight
-                    normal  Normal font-weight (default)
-                    bold    Bold text in popup
-                font-style
-                    normal  Normal font-weight (default)
-                    italic  Bold text in popup
-                casesensitive
-                    yes     This group is case sensitive (default)
-                    no      Ignore case for the group
-                useforautocomplete
-                    yes     Add this group's strings to the autocomplete dictionary (default)
-                    no      Don't add to autocomplete dictionary
-            -->
-
-            <keywords id="Keywords" color="#000" font-weight="bold" useforautocomplete="yes" casesensitive="no">
-            <!-- STUDIO added case insensitive -->
-
-                <string>if</string>
-                <string>unless</string>
-                <string>else</string>
-                <string>switch</string>
-                <string>when</string>
-                <string>then</string>
-
-                <!-- Loops -->
-                <string>for</string>
-                <string>while</string>
-                <string>until</string>
-                <string>do</string>
-
-                <!-- Objects and scope -->
-                <string>new</string>
-                <string>this</string>
-
-                <!-- Flow -->
-                <string>break</string>
-                <string>continue</string>
-                <string>return</string>
-
-                <!-- Errors -->
-                <string>try</string>
-                <string>catch</string>
-                <string>throw</string>
-
-                <!-- Operators and Aliases -->
-                <string>is</string>
-                <string>isnt</string>
-                <string>not</string>
-                <string>and</string>
-                <string>or</string>
-                <string>true</string>
-                <string>yes</string>
-                <string>on</string>
-                <string>false</string>
-                <string>no</string>
-                <string>of</string>
-                <string>off</string>
-                <string>in</string>
-            </keywords>
-
-
-
-            <state id="Function" color="#005e97" font-weight="bold">
-                <begin><regex>(?:[\(][\w\s\.\,\$]*[\)][\s])?[-=]></regex></begin>
-                <end><regex>[\s]</regex></end>
-            </state>
-
-
-            <keywords id="Numbers" color="#008a6c" useforautocomplete="no">
-              <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
-            </keywords>
-
-
-            <keywords id="Properties" color="#a85400" useforautocomplete="no">
-              <regex>(@\w*)</regex>
-            </keywords>
-
-            <keywords id="Properties" color="#a85400" useforautocomplete="no">
-              <regex>(\w+(\s+)?:)</regex>
-            </keywords>
-
-            <keywords id="Classes" color="#961a00" useforautocomplete="no">
-              <regex>(\b[A-Z]\w*)</regex>
-            </keywords>
-
-            <state id="Comment" color="#8b8b8b" font-style="italic">
-                <begin><regex>###</regex></begin>
-                <end><regex>###</regex></end>
-            </state>
-
-
-            <state id="Single Comment" color="#8b8b8b" font-style="italic">
-                <begin><regex>#</regex></begin>
-                <end><regex>[\n\r]</regex></end>
-            </state>
-
-
-            <state id="String" color="#357e00">
-                <begin><regex>"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-
-                <state id="Interpolated Values" color="#37aa00" font-weight="bold">
-                  <begin><regex>#{</regex></begin>
-                  <end><regex>}</regex></end>	
-                </state>
-            </state>
-
-            <state id="Single String" color="#357e00">
-                <begin><regex>'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-            </state>
-
-
-            <state id="RegularExpression" color="#880047" font-style="italic">
-                <begin><regex>(?i)(?&lt;=[=(,:\+~]|^|return|;)\s*/(?![/*+{}?])</regex></begin>
-                <end><regex>/[cgimosx]*</regex></end>
-            </state>
-
-        </default>
-
-    </states>
-
+  <head>
+    <name>CoffeeScript</name>
+    <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens>
+  </head>
+  <states>
+    <default id="Base">
+      
+      <keywords id="This" scope="language.property" useforautocomplete="yes">
+        <string>this</string>
+      </keywords>
+      
+      <keywords id="Globals, constants and aliases" scope="constant" useforautocomplete="yes">
+        <string>true</string>
+        <string>yes</string>
+        <string>on</string>
+        <string>false</string>
+        <string>no</string>
+        <string>off</string>
+        
+        <!-- Feel free to add -->
+        <string>arguments</string>
+        <string>process</string>
+        <string>console</string>
+        <string>window</string>
+        <string>document</string>
+        <string>$</string>
+      </keywords>
+      
+      <keywords id="Keywords" scope="keyword.control" useforautocomplete="yes">
+        <string>if</string>
+        <string>unless</string>
+        <string>else</string>
+        <string>switch</string>
+        <string>when</string>
+        <string>then</string>
+        
+        <string>for</string>
+        <string>while</string>
+        <string>until</string>
+        <string>do</string>
+        
+        <string>break</string>
+        <string>continue</string>
+        <string>return</string>
+        
+        <string>try</string>
+        <string>catch</string>
+        <string>throw</string>
+        
+        <string>new</string>
+      </keywords>
+      
+      <keywords id="Operators" useforautocomplete="yes" scope="language.operator">
+        <string>is</string>
+        <string>isnt</string>
+        <string>not</string>
+        <string>and</string>
+        <string>of</string>
+        <string>or</string>
+        <string>in</string>
+        <regex>([\+\-\*\/\=\!\?\&lt;\&gt;\%])</regex>
+      </keywords>
+      
+      <state id="Test" scope="language.class">
+        <begin><regex>{(?={)</regex></begin>
+        <end><regex>(?&lt;=})}</regex></end>
+        
+        <state id="Sub test" scope="language.operator">
+          <begin><regex>{</regex></begin>
+          <end><regex>}</regex></end>
+        </state>
+      </state>
+      
+      <keywords id="Function definition" scope="language.function">
+        <regex>([\-=]&gt;)</regex>
+      </keywords>
+      <state id="Function definition" scope="language.function">
+        <begin><regex>\((?=[^\n\)]*?\)\s*[\-=]&gt;)</regex></begin>
+        <end><regex>\)\s*[\-=]&gt;</regex></end>
+        
+        <keywords id="Function argument" scope="language.function.argument">
+          <regex>[\(,]\s*(\w+)\s*(?=[=,\)])</regex>
+        </keywords>
+        
+        <!-- Function arguments deafults not yet fully implemented (but here's a start). -->
+        <state id="Function argument defaults" type="block" scope="meta.block">
+          <begin><string>=</string></begin>
+          <end><regex>(?=[,\)])</regex></end>
+          <import mode="CoffeeScript" />
+        </state>
+      </state>
+      
+      <keywords id="Numbers" scope="constant.numeric" casesensitive="yes" useforautocomplete="yes">
+        <string>NaN</string>
+        <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+      </keywords>
+      
+      <keywords id="Properties" scope="language.property">
+        <regex>(@\w*)</regex>
+        <regex>(\w+(\s+)?:)</regex>
+        <regex>(?:\D|[a-zA-Z@\$]\d)\.(\w+)</regex>
+      </keywords>
+      
+      <keywords id="Special variables" scope="language.variable">
+        <regex>(\$\w*)</regex>
+      </keywords>
+      
+      <keywords id="Classes" scope="language.class">
+        <regex>(\b[A-Z]\w*)</regex>
+      </keywords>
+            
+      <state id="Comment" scope="markup.comment" foldable="yes" usespellchecking="yes">
+        <begin><regex>###</regex></begin>
+        <end><regex>###</regex></end>
+      </state>
+      
+      <state id="Single Comment" scope="markup.comment" usespellchecking="yes">
+        <begin><regex>#</regex></begin>
+        <end><regex>[\n\r]</regex></end>
+      </state>
+      
+      <state id="String" scope="string" usespellchecking="yes">
+        <begin><regex>"</regex></begin>
+        <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+        
+        <!-- BM.W: I was trying to style the enclosing '#{}' characters differently, using
+          an intermediate state, but I didn't manage to get it working. This works for now. -->
+        <state id="Interpolation" scope="meta.block" type="block" foldable="yes">
+          <begin><regex>#{</regex></begin>
+          <end><regex>}</regex></end>
+          <import mode="CoffeeScript" />
+        </state>
+      </state>
+      
+      <state id="Single String" scope="string" usespellchecking="yes">
+        <begin><regex>'</regex></begin>
+        <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+      </state>
+      
+      <state id="Regular expression" scope="string.regex">
+        <begin><regex>(?i)(?&lt;=[=(,:\+~]|^|return|;)\s*/(?![/*+{}?])</regex></begin>
+        <end><regex>/[cgimosx]*</regex></end>
+      </state>
+      
+      <state id="Embedded JavaScript" type="block" foldable="yes" indent="yes" scope="meta.block">
+        <begin><regex>`</regex><autoend>`</autoend></begin>
+        <end><regex>`</regex></end>
+        <import mode="JavaScript" />
+      </state>
+    </default>
+  </states>
 </syntax>
