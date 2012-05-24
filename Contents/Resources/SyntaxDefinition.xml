@@ -3,6 +3,13 @@
   <head>
     <name>CoffeeScript</name>
     <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens>
+    <!--ZEROWIDTHS Issue:
+        It seems that zero-width lookaheads/lookbehinds cannot be used as state end symbols
+        n Coda 2 (I don't know about SEE itself). As a workaround, I've required padding with
+        a whitespace character. Looking for a better solution.
+        
+        Look for the 'ZEROWIDTHS' tag throughout this document to see where this issue occurs.
+    -->
   </head>
   <states>
     <default id="Base">
@@ -18,6 +25,9 @@
         <string>false</string>
         <string>no</string>
         <string>off</string>
+        
+        <string>null</string>
+        <string>undefined</string>
         
         <!-- Feel free to add -->
         <string>arguments</string>
@@ -36,6 +46,9 @@
         <string>when</string>
         <string>then</string>
         
+        <string>class</string>
+        <string>extends</string>
+        
         <string>for</string>
         <string>while</string>
         <string>until</string>
@@ -47,6 +60,7 @@
         
         <string>try</string>
         <string>catch</string>
+        <string>finally</string>
         <string>throw</string>
         
         <string>new</string>
@@ -60,7 +74,7 @@
         <string>of</string>
         <string>or</string>
         <string>in</string>
-        <regex>([\+\-\*\/\=\!\?\&lt;\&gt;\%])</regex>
+        <regex>([\+\-\*\/\=\!\?\&lt;\>\%])</regex>
       </keywords>
       
       <state id="Test" scope="language.class">
@@ -74,26 +88,27 @@
       </state>
       
       <keywords id="Function definition" scope="language.function">
-        <regex>([\-=]&gt;)</regex>
+        <regex>([\-=]>)</regex>
       </keywords>
-      <state id="Function definition" scope="language.function">
-        <begin><regex>\((?=[^\n\)]*?\)\s*[\-=]&gt;)</regex></begin>
-        <end><regex>\)\s*[\-=]&gt;</regex></end>
+<state id="Function definition" scope="language.function">
+        <begin><regex>\((?=[^\n\)]*?\)\s*[\-=]>)</regex></begin>
+        <end><regex>\)\s*[\-=]></regex></end>
         
         <keywords id="Function argument" scope="language.function.argument">
           <regex>[\(,]\s*(\w+)\s*(?=[=,\)])</regex>
         </keywords>
         
-        <!-- Function arguments deafults not yet fully implemented (but here's a start). -->
+        <!--ZEROWIDTHS issue (see above): Requiring whitespace padding at the end for now.-->
         <state id="Function argument defaults" type="block" scope="meta.block">
           <begin><string>=</string></begin>
-          <end><regex>(?=[,\)])</regex></end>
-          <import mode="CoffeeScript" />
+          <end><regex>\s(?=[,\)])</regex></end>
+          <import />
         </state>
       </state>
       
       <keywords id="Numbers" scope="constant.numeric" casesensitive="yes" useforautocomplete="yes">
         <string>NaN</string>
+        <string>infinity</string>
         <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
       </keywords>
       
@@ -125,12 +140,16 @@
         <begin><regex>"</regex></begin>
         <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         
-        <!-- BM.W: I was trying to style the enclosing '#{}' characters differently, using
-          an intermediate state, but I didn't manage to get it working. This works for now. -->
-        <state id="Interpolation" scope="meta.block" type="block" foldable="yes">
-          <begin><regex>#{</regex></begin>
+        <state id="Interpolation" scope="string.interpolation">
+          <begin><regex>#(?={)</regex></begin>
           <end><regex>}</regex></end>
-          <import mode="CoffeeScript" />
+          
+          <!--ZEROWIDTHS issue (see above): Requiring full whitespace padding for now. -->
+          <state id="Interpolation code" type="block" foldable="yes">
+            <begin><regex>(?&lt;={)\s</regex></begin>
+            <end><regex>\s(?=})</regex></end>
+            <import />
+          </state>
         </state>
       </state>
       
@@ -150,17 +169,19 @@
         <import mode="JavaScript" />
       </state>
       
-      <state id="Class Blocks" foldable="yes" scope="meta.block">
+      <!--
+<state id="Class Blocks" foldable="yes" scope="meta.block">
         <begin><regex>^class[^\n]+\n</regex></begin>
         <end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
         <import />
       </state>
       
       <state id="Function Blocks" foldable="yes" scope="meta.block">
-        <begin><regex>^(?'functionstartingwhitespace'[ \t]*).*?(?:[\(][\w\s\.\,\$]*[\)][\s])?[-=]&gt;</regex></begin>
+        <begin><regex>^(?'functionstartingwhitespace'[ \t]*).*?(?:[\(][\w\s\.\,\$]*[\)][\s])?[-=]></regex></begin>
         <end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:functionstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:functionstartingwhitespace)\S|(?#see-insert-start-group:functionstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
         <import />
       </state>
+-->
     </default>
   </states>
 </syntax>

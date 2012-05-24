@@ -16,18 +16,18 @@ s = 62 - 10
 m = 5 * 5
 d = 10 / NaN
 
-
 ### STRINGS ###
 
 theFirstString = 'is in single quotes'
 thenThisString = "is in double quotes
  and can span multiple lines"
-interpolatedStrings = "contain code-colored #{Inter.pol() + "at#{"ti"}ons"}!"
 heredocStrings = """
                  are
                  rather #{"awesome"}.
                  """
 
+#-- Meh...
+interpolatedStrings = "contain code-colored #{ Inter.pol() + "ation, #{"but currently only when whitespace-padded"}" }..."
 
 ### FUNCTIONS ###
 
@@ -37,15 +37,17 @@ withoutArguments = =>
 withArguments = (a, b) ->
   (f > "indented")
 
-#-- Meh...
-defaultArg = (u, ments, are='nice' in ['colors'] or not true?) ->
+#-- Meh... (again with the whitespace-padding (end only))----v
+defaultArg = (u, ments, are='nice' in ['colors'] or not true? , man) ->
   "...but the function definition's RPAREN (before the arrow) isn't, and
   it fails with more complex things, which is a #{not are} shame"
 
 #-- Fail
 the = (second) -> (inline > "function is mean") and ((captures)=>"the first LPAREN too greedily")()
 
-
+#-- Fail with foldable block
+foo 'bar', ->
+  "baz"
 
 
 ### VARIABLES ###
