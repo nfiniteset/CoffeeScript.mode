@@ -149,6 +149,18 @@
         <end><regex>`</regex></end>
         <import mode="JavaScript" />
       </state>
+      
+      <state id="Class Blocks" foldable="yes" scope="meta.block">
+        <begin><regex>^class[^\n]+\n</regex></begin>
+        <end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+        <import />
+      </state>
+      
+      <state id="Function Blocks" foldable="yes" scope="meta.block">
+        <begin><regex>^(?'functionstartingwhitespace'[ \t]*).*?(?:[\(][\w\s\.\,\$]*[\)][\s])?[-=]&gt;</regex></begin>
+        <end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:functionstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:functionstartingwhitespace)\S|(?#see-insert-start-group:functionstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+        <import />
+      </state>
     </default>
   </states>
 </syntax>
