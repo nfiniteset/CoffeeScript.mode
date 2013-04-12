@@ -6,6 +6,8 @@ This is a Coda/SubEthaEdit syntax coloring mode for the CoffeeScript language.
 __Good news: Coda 2 is out.__     
 __Bad news: This mode is not compatible with it.__
  
+[bm-w has updated this to work with Coda 2](https://github.com/bm-w/CoffeeScript.mode)
+ 
 Installation
 ============
  
